@@ -1,0 +1,113 @@
+package palabras;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+
+/**
+ *
+ * @author Alumnos
+ */
+public class Palabras {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+
+        File f=new File("C:\\Users\\dii\\Desktop\\howto\\Alsa-sound.txt");
+        leer(f);
+        /*ArrayList d = new ArrayList();
+        String a = " En el finally cerramos el fichero, para asegurarnos que se cierra tanto si todo va bien como si salta una excepcion";
+        String j;
+        StringTokenizer s = new StringTokenizer(a);
+        while (s.hasMoreTokens()) {
+            j=s.nextToken();
+            d.add(j);
+        }
+        contarp(d);*/
+    }
+
+    public static void leer(File a) {
+        // TODO code application logic here public static void leer()
+
+        FileReader fr = null;
+        BufferedReader br;
+        int numTokens = 0;
+        ArrayList c = new ArrayList();
+        try {
+            // Apertura del fichero y creacion de BufferedReader para poder
+            // hacer una lectura comoda (disponer del metodo readLine()).
+
+            fr = new FileReader(a);
+            br = new BufferedReader(fr);
+            String s2;
+
+            // Lectura del fichero
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                System.out.println(linea);
+                linea.split("[a-zA-Z]{3,9}");
+                
+                StringTokenizer st = new StringTokenizer(linea);
+
+                // bucle por todas las palabras
+                while (st.hasMoreTokens()) {
+                    s2 = st.nextToken();
+                    c.add(s2);
+                    numTokens++;
+                    System.out.println("    Palabra " + numTokens + " es: " + s2);
+                }
+            }
+            contarp(c);
+
+        } catch (IOException e) {
+        } finally {
+            // En el finally cerramos el fichero, para asegurarnos
+            // que se cierra tanto si todo va bien como si salta 
+            // una excepcion.
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            } catch (IOException e2) {
+            }
+        }
+    }
+
+    public static void contarp(ArrayList a) {
+        HashSet<String> h = new HashSet(a);
+        Iterator iterator = h.iterator();
+        String palabra;
+        int contador = 0;
+        while (iterator.hasNext()) {
+            palabra = (String) iterator.next();
+            for (int i = 0; i < a.size(); i++) {
+                if (palabra.equals(a.get(i))) {
+                    contador++;
+                }
+            }
+            System.out.println(palabra + " " + contador);
+            contador = 0;
+        }
+
+    }
+    public static void EscribirFichero(String p, String nombre) throws IOException{
+        String ruta = p+nombre+"H-p.txt";
+        File archivo = new File(ruta);
+        BufferedWriter bw;
+        if(archivo.exists()) {
+            bw = new BufferedWriter(new FileWriter(archivo));
+            bw.write("El fichero de texto ya estaba creado.");
+        } else {
+            bw = new BufferedWriter(new FileWriter(archivo));
+            bw.write("Acabo de crear el fichero de texto.");
+        }
+        bw.close();
+    
+    
+}
+
+}
