@@ -1,0 +1,134 @@
+package palabras;
+
+import java.io.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.regex.Pattern;
+
+/**
+ *
+ * @author DELL
+ */
+public class Palabras {
+
+    /**
+     * @param args the command line arguments
+     * @throws java.io.IOException
+     */
+    public static void main(String[] args) throws IOException {
+       // File c = new File("C:\\Users\\dii\\Desktop\\howto\\");
+        // palabras(c);
+        // System.out.println(caracteres(c));   
+
+        //String a = "";
+        //directorio(c, a);
+        
+        //  palabras(d);
+         
+        // escribirfile("C:\\Users\\Alumnos\\Desktop\\howto");
+
+    }
+
+    public static void palabras(File archivo) throws IOException {
+        String cadena;
+        int caracteres = caracteres(archivo);
+        ArrayList ar = new ArrayList();
+        int palabras = 0;
+        int linea = 0;
+        String h[];
+        String t;
+        FileReader f = new FileReader(archivo);
+        BufferedReader b = new BufferedReader(f);
+        while ((cadena = b.readLine()) != null) {
+            h = cadena.trim().split("[^a-zA-Z{3,9}]");
+            for (int i = 0; i < h.length; i++) {
+                if (Pattern.matches("[a-zA-Z]{3,9}", h[i])) {
+                    // System.out.println(h[i]);
+                    ar.add(h[i]);
+                    palabras++;
+                }
+            }
+            linea++;
+        }
+
+        System.out.println(linea + "    " + palabras + "   " + caracteres + "   " + archivo.getName());
+
+        /* System.out.println("lineas " + linea);
+        System.out.println("Palabras repetidas ");*/
+        //contarp(ar);
+    }
+
+    public static int caracteres(File f) throws FileNotFoundException, IOException {
+        FileReader fr;
+        int caract;
+        int c = 0;
+        fr = new FileReader(f);
+        caract = fr.read();
+        while (caract != -1) {
+            c++;
+            caract = fr.read();
+        }
+        return c;
+    }
+
+    public static void contarp(ArrayList a) {
+        HashSet<String> h = new HashSet(a);
+        Iterator iterator = h.iterator();
+        String palabra;
+        int contador = 0;
+        while (iterator.hasNext()) {
+            palabra = (String) iterator.next();
+            for (int i = 0; i < a.size(); i++) {
+                if (palabra.equals(a.get(i))) {
+                    contador++;
+                }
+            }
+            System.out.println(palabra + " " + contador);
+            contador = 0;
+        }
+
+    }
+
+    public static void escribirfile(String direccion,String nombre,ArrayList p) throws IOException {
+        File d = new File("C:\\Users\\dii\\Desktop\\Howto-H-P");
+        d.mkdirs();
+        String ruta = direccion +nombre+"H-p.txt";
+        File archivo = new File(ruta);
+        BufferedWriter bw;
+        if (archivo.exists()) {
+            bw = new BufferedWriter(new FileWriter(archivo));
+            for (int i = 0; i < p.size(); i++) {
+                bw.write(p.get(i).toString());
+            }
+        } else {
+            bw = new BufferedWriter(new FileWriter(archivo));
+            bw.write("Acabo de crear el fichero de texto.");
+        }
+        bw.close();
+
+    }
+
+    public static void directorio(File file, String files) throws IOException {
+
+        File[] listOfFiles = file.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+
+            if (listOfFiles[i].isFile()) {
+                files = "A :" + listOfFiles[i].getName();
+                System.out.println(files);
+                palabras(listOfFiles[i]);
+            }
+            if (listOfFiles[i].isDirectory()) {
+                System.out.println("D :" + listOfFiles[i].getPath());
+                directorio(listOfFiles[i], listOfFiles[i].getPath());
+
+            }
+        }
+
+    }
+
+}
