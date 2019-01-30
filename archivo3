@@ -18,17 +18,19 @@ public class Palabras {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
+    static ArrayList ag=new ArrayList();
     public static void main(String[] args) throws IOException {
-       // File c = new File("C:\\Users\\dii\\Desktop\\howto\\");
+     File c = new File("C:\\Users\\DELL\\Desktop\\howto\\");
         // palabras(c);
         // System.out.println(caracteres(c));   
-
-        //String a = "";
-        //directorio(c, a);
+       
         
-        //  palabras(d);
-         
-        // escribirfile("C:\\Users\\Alumnos\\Desktop\\howto");
+      String a = "";
+       directorio(c, a);
+       //contarp(ag);
+       //  palabras(c);
+      // escribirfile("Archivog",ag);
+      //  escribirfile("Accessibility-HOWTO",x);
 
     }
 
@@ -39,7 +41,6 @@ public class Palabras {
         int palabras = 0;
         int linea = 0;
         String h[];
-        String t;
         FileReader f = new FileReader(archivo);
         BufferedReader b = new BufferedReader(f);
         while ((cadena = b.readLine()) != null) {
@@ -47,7 +48,8 @@ public class Palabras {
             for (int i = 0; i < h.length; i++) {
                 if (Pattern.matches("[a-zA-Z]{3,9}", h[i])) {
                     // System.out.println(h[i]);
-                    ar.add(h[i]);
+                    //ar.add(h[i]);
+                    ag.add(h[i]);
                     palabras++;
                 }
             }
@@ -58,7 +60,8 @@ public class Palabras {
 
         /* System.out.println("lineas " + linea);
         System.out.println("Palabras repetidas ");*/
-        //contarp(ar);
+        contarp(ar);
+        //return contarp(ar);
     }
 
     public static int caracteres(File f) throws FileNotFoundException, IOException {
@@ -75,6 +78,7 @@ public class Palabras {
     }
 
     public static void contarp(ArrayList a) {
+        ArrayList nw=new ArrayList();
         HashSet<String> h = new HashSet(a);
         Iterator iterator = h.iterator();
         String palabra;
@@ -86,41 +90,54 @@ public class Palabras {
                     contador++;
                 }
             }
-            System.out.println(palabra + " " + contador);
+           // nw.add(palabra+"         "+contador);
+           
+          System.out.println(palabra+":  " +contador);
             contador = 0;
         }
-
+      // return nw;
     }
 
-    public static void escribirfile(String direccion,String nombre,ArrayList p) throws IOException {
-        File d = new File("C:\\Users\\dii\\Desktop\\Howto-H-P");
-        d.mkdirs();
-        String ruta = direccion +nombre+"H-p.txt";
+    public static void escribirfile(String nombre,ArrayList p) throws IOException {
+      // File d = new File("C:\\Users\\DELL\\Desktop\\Howto-H-P");
+       
+        //d.mkdirs();
+      //  String ruta = "C:\\Users\\DELL\\Desktop\\Howto-H-P"+nombre+"H-p.txt";
+       String ruta = "C:\\Users\\DELL\\Desktop\\Howto-H-P\\"+nombre+"H-p.txt";
         File archivo = new File(ruta);
         BufferedWriter bw;
         if (archivo.exists()) {
             bw = new BufferedWriter(new FileWriter(archivo));
             for (int i = 0; i < p.size(); i++) {
-                bw.write(p.get(i).toString());
+                bw.write((String) p.get(i));
+                bw.newLine();
             }
         } else {
             bw = new BufferedWriter(new FileWriter(archivo));
             bw.write("Acabo de crear el fichero de texto.");
+            for (int i = 0; i < p.size(); i++) {
+                bw.write((String) p.get(i));
+                bw.newLine();
+            }
         }
         bw.close();
 
     }
 
     public static void directorio(File file, String files) throws IOException {
-
+        ArrayList contenido=new ArrayList();
         File[] listOfFiles = file.listFiles();
-
+        
         for (int i = 0; i < listOfFiles.length; i++) {
 
             if (listOfFiles[i].isFile()) {
                 files = "A :" + listOfFiles[i].getName();
                 System.out.println(files);
-                palabras(listOfFiles[i]);
+               // System.out.println(listOfFiles[i].getPath());
+              //  System.out.println(listOfFiles[i].getName());
+            //   contenido=palabras(listOfFiles[i]);
+            palabras(listOfFiles[i]);
+             // escribirfile(listOfFiles[i].getName(),contenido);
             }
             if (listOfFiles[i].isDirectory()) {
                 System.out.println("D :" + listOfFiles[i].getPath());
@@ -129,6 +146,9 @@ public class Palabras {
             }
         }
 
+    }
+    public static void indice(){
+        
     }
 
 }
